@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guia Apto 95 Smart Maracá</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#F3F5F6; --surface:#FFFFFF; --surface2:#E9EDF0; --ink:#15202B; --muted:#5A6874; --line:#D5DCE1;
+  --accent:#1D5F8C; --accent-soft:#DCE9F2; --deadline:#A8641A; --deadline-soft:#F6EAD9;
+  --ok:#2E7D4F; --ok-soft:#DDEFE3; --risk:#B03A2E; --risk-soft:#F6E0DD; --base:#9AA8B3;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Source Sans 3",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0F161C; --surface:#172129; --surface2:#1F2B35; --ink:#E6ECF0; --muted:#98A6B1; --line:#2B3945;
+    --accent:#6FB0DD; --accent-soft:#1B3447; --deadline:#E3A45A; --deadline-soft:#3A2B18;
+    --ok:#6CC08E; --ok-soft:#183325; --risk:#EB7F72; --risk-soft:#3E1F1B; --base:#5E6D78;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0F161C; --surface:#172129; --surface2:#1F2B35; --ink:#E6ECF0; --muted:#98A6B1; --line:#2B3945;
+  --accent:#6FB0DD; --accent-soft:#1B3447; --deadline:#E3A45A; --deadline-soft:#3A2B18;
+  --ok:#6CC08E; --ok-soft:#183325; --risk:#EB7F72; --risk-soft:#3E1F1B; --base:#5E6D78;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding:0 16px;}
+.wrap{max-width:1040px;margin:0 auto;padding-block:28px 64px;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(28px,4.4vw,42px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:24px;font-weight:700}
+h3{font-size:17px;font-weight:700}
+p{margin:0;max-width:68ch}
+.num,td.n,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.muted{color:var(--muted)}
+section{display:flex;flex-direction:column;gap:16px;scroll-margin-top:64px}
+.sec-head{display:flex;flex-direction:column;gap:6px;border-top:2px solid var(--ink);padding-top:14px}
+
+/* header */
+header{display:flex;flex-direction:column;gap:14px}
+.matricula{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--muted)}
+.matricula span b{color:var(--ink);font-weight:600}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin:0 -16px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{display:inline-block;color:var(--muted);text-decoration:none;font-size:14px;font-weight:600;padding:6px 10px;border-radius:6px}
+nav a:hover,nav a:focus-visible{color:var(--ink);background:var(--surface2);outline:none}
+
+/* ledger */
+.ledger{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.ledger div{background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.ledger .v{font-family:var(--mono);font-size:20px;font-weight:600}
+.ledger .l{font-size:13px;color:var(--muted)}
+.ledger .hl .v{color:var(--accent)}
+
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surface2)}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;white-space:nowrap}
+tr.total td{font-weight:700;background:var(--surface2)}
+
+/* timeline */
+.phases{display:flex;flex-direction:column;gap:0;border-left:2px solid var(--line);margin-left:10px}
+.phase{position:relative;padding:0 0 22px 24px;display:flex;flex-direction:column;gap:8px}
+.phase:last-child{padding-bottom:0}
+.phase::before{content:"";position:absolute;left:-8px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--surface);border:3px solid var(--accent)}
+.phase.done::before{background:var(--ok);border-color:var(--ok)}
+.phase.money::before{border-color:var(--deadline)}
+.phase-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+.when{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:600}
+.phase ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.phase li{max-width:72ch}
+.who{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.04em;padding:1px 7px;border-radius:4px;margin-left:4px;vertical-align:1px;white-space:nowrap}
+.w-voce{background:var(--accent-soft);color:var(--accent)}
+.w-vend{background:var(--deadline-soft);color:var(--deadline)}
+.w-itau{background:var(--surface2);color:var(--muted)}
+.w-cart{background:var(--ok-soft);color:var(--ok)}
+.w-todos{background:var(--ink);color:var(--bg)}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px}
+.p-ok{background:var(--ok-soft);color:var(--ok)}
+.p-wait{background:var(--deadline-soft);color:var(--deadline)}
+.p-risk{background:var(--risk-soft);color:var(--risk)}
+
+/* deadlines */
+.deadlines{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.dl{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--deadline);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.dl .d{font-family:var(--mono);font-size:18px;font-weight:600;color:var(--deadline)}
+
+/* checklist */
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.checkgroup{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.checkgroup label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:15px}
+.checkgroup input{margin-top:4px;accent-color:var(--accent);width:16px;height:16px;flex:none}
+.checkgroup input:checked + span{color:var(--muted);text-decoration:line-through}
+
+/* callout */
+.note{background:var(--risk-soft);border-radius:8px;padding:12px 14px;font-size:15px}
+.note b{color:var(--risk)}
+.note.info{background:var(--accent-soft)}
+.note.info b{color:var(--accent)}
+
+/* calculator */
+.calc{display:grid;grid-template-columns:300px 1fr;gap:20px;align-items:start}
+@media (max-width:820px){.calc{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:14px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:13px;font-weight:600;color:var(--muted)}
+.field input[type=number]{font-family:var(--mono);font-size:15px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:100%}
+.field input:focus-visible,.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.field small{font-size:12px;color:var(--muted)}
+.seg{display:flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.seg button{flex:1;font:inherit;font-size:13.5px;font-weight:600;padding:8px 6px;border:0;background:var(--bg);color:var(--muted);cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--accent);color:var(--surface)}
+.results{display:flex;flex-direction:column;gap:16px;min-width:0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.kpi .v{font-family:var(--mono);font-size:21px;font-weight:600}
+.kpi .l{font-size:12.5px;color:var(--muted)}
+.kpi .s{font-size:12.5px}
+.kpi.good .v{color:var(--ok)}
+.kpi.primary .v{color:var(--accent)}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 12px 6px}
+.chart svg{width:100%;height:auto;display:block}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);padding:0 4px 6px}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:4px;margin-right:6px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+details summary{cursor:pointer;padding:12px 14px;font-weight:600}
+details .tbl{border:0;border-top:1px solid var(--line);border-radius:0;max-height:440px;overflow:auto}
+details th{position:sticky;top:0}
+.first{font-size:14px}
+.first td{padding:6px 10px}
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Guia de compra · Bruno &amp; Fernanda</div>
+  <h1>Apto 95 · Condomínio Smart Maracá</h1>
+  <p class="muted">Timeline, responsabilidades, fluxo de caixa e simulador de amortização montados sobre a minuta Itaú da proposta 17778669 (SFI, SAC, 360 meses).</p>
+  <div class="matricula">
+    <span>Matrícula <b>178.642</b> · 8º RI-SP</span>
+    <span>IPTU <b>310.028.1084-9</b></span>
+    <span>Rua Maracá, 301 · Vila Guarani</span>
+    <span>Avaliação Itaú <b>R$ 885.000</b></span>
+  </div>
+</header>
+
+<nav aria-label="Seções">
+  <a href="#numeros">Números</a><a href="#timeline">Timeline</a><a href="#responsaveis">Quem faz o quê</a><a href="#caixa">Caixa</a><a href="#prazos">Prazos</a><a href="#checklist">Checklist</a><a href="#calculadora">Calculadora</a>
+</nav>
+
+<section id="numeros">
+  <div class="sec-head"><div class="eyebrow">Quadro resumo da minuta</div><h2>Os números da operação</h2></div>
+  <div class="ledger">
+    <div><span class="l">Preço de venda</span><span class="v">R$ 810.000</span></div>
+    <div><span class="l">Recursos próprios (item 3-A)</span><span class="v">R$ 260.000</span></div>
+    <div><span class="l">↳ Sinal já pago em 14/09</span><span class="v">R$ 10.000</span></div>
+    <div class="hl"><span class="l">↳ PIX/TED à Evelyn na assinatura</span><span class="v">R$ 250.000</span></div>
+    <div><span class="l">Itaú → Evelyn (item 7)</span><span class="v">R$ 550.000</span></div>
+    <div><span class="l">Itaú → vocês, despesas (item 8)</span><span class="v">R$ 40.000</span></div>
+    <div class="hl"><span class="l">Saldo devedor total</span><span class="v">R$ 590.000</span></div>
+    <div><span class="l">Taxa efetiva c/ benefício</span><span class="v">12,25% a.a. + TR</span></div>
+    <div><span class="l">Taxa sem benefício</span><span class="v">13,99% a.a. + TR</span></div>
+    <div><span class="l">CET c/ benefício</span><span class="v">12,92% a.a.</span></div>
+    <div><span class="l">1ª prestação</span><span class="v">R$ 7.558,04</span></div>
+    <div><span class="l">Tarifa de avaliação (fora do financiamento)</span><span class="v">R$ 1.205,29</span></div>
+  </div>
+  <div class="tbl"><table class="first">
+    <thead><tr><th>Composição da 1ª prestação</th><th class="n">Valor</th><th>Como evolui</th></tr></thead>
+    <tbody>
+      <tr><td>Amortização (590.000 ÷ 360)</td><td class="n">R$ 1.638,88</td><td class="muted">Constante no SAC, corrigida pela TR</td></tr>
+      <tr><td>Juros (0,9676% a.m. sobre o saldo)</td><td class="n">R$ 5.709,06</td><td class="muted">Caem junto com o saldo</td></tr>
+      <tr><td>Seguro MIP (morte e invalidez)</td><td class="n">R$ 161,07</td><td class="muted">≈ 0,0273% do saldo, cai com ele</td></tr>
+      <tr><td>Seguro DFI (danos físicos)</td><td class="n">R$ 49,03</td><td class="muted">Sobre o valor do imóvel, fixo</td></tr>
+      <tr><td>Tarifa de administração</td><td class="n">R$ 0,00</td><td></td></tr>
+      <tr class="total"><td>Total</td><td class="n">R$ 7.558,04</td><td></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note"><b>A taxa de 12,25% depende de duas condições:</b> débito em conta Itaú e seguro contratado pela apólice Itaú. Se vocês perderem qualquer uma delas, a taxa sobe para 13,99% até o fim do contrato (cláusula 18.5.5).</div>
+</section>
+
+<section id="timeline">
+  <div class="sec-head"><div class="eyebrow">Sequência · D0 = emissão do contrato pelo Itaú</div><h2>Timeline de tarefas</h2>
+  <p class="muted">As datas em D+ são estimativas. O que não muda é a ordem das fases e o limite de 45 dias para devolver o contrato registrado ao Itaú.</p></div>
+  <div class="phases">
+    <div class="phase done">
+      <div class="phase-top"><h3>Sinal e recibo</h3><span class="when">14/09/2026</span><span class="pill p-ok">Feito</span></div>
+      <ul><li>Sinal de R$ 10.000 pago e recibo assinado. Começa a contar o prazo de 90 dias.</li></ul>
+    </div>
+    <div class="phase done">
+      <div class="phase-top"><h3>Due diligence federal</h3><span class="when">10–20/09</span><span class="pill p-ok">Feito</span></div>
+      <ul><li>Matrícula livre de ônus (alienação ao BB cancelada em 2019). Certidões federais, CND e CNDT dos dois vendedores, todas negativas.</li></ul>
+    </div>
+    <div class="phase">
+      <div class="phase-top"><h3>Preparação</h3><span class="when">agora → D0</span><span class="pill p-wait">Em aberto</span></div>
+      <ul>
+        <li>Emitir TJSP cível e criminal estadual e certidão de protesto (CENPROT) da Evelyn e do Carlos <span class="who w-voce">VOCÊS</span></li>
+        <li>Acompanhar análise jurídica e laudo com a Beatriz e confirmar a data em que vence a proposta de 60 dias <span class="who w-voce">VOCÊS</span></li>
+        <li>Pedir matrícula atualizada se a de 10/09 vencer (30 dias ≈ 10/10) antes da emissão <span class="who w-vend">VENDEDORES</span></li>
+        <li>Programar o resgate da XP conforme a liquidação de cada ativo, para os R$ 250 mil estarem na conta Itaú na véspera <span class="who w-voce">VOCÊS</span></li>
+        <li>Aumentar o limite do PIX (leva 24–48h) ou planejar TED no horário bancário <span class="who w-voce">VOCÊS</span></li>
+        <li>Obter confirmação por escrito, dos dois vendedores, da conta que recebe os R$ 250 mil <span class="who w-vend">VENDEDORES</span></li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-top"><h3>Emissão do contrato</h3><span class="when">D0 · est. meados/fim de out.</span></div>
+      <ul>
+        <li>Itaú envia o contrato final. Conferir nomes, valores dos itens 3, 4, 7 e 8 e as contas de destino <span class="who w-itau">ITAÚ</span> <span class="who w-voce">VOCÊS</span></li>
+        <li>Débito da tarifa de avaliação de R$ 1.205,29 <span class="who w-itau">ITAÚ</span></li>
+      </ul>
+    </div>
+    <div class="phase money">
+      <div class="phase-top"><h3>Assinatura e pagamento à vendedora</h3><span class="when">D0 → D+3</span></div>
+      <ul>
+        <li>Assinatura eletrônica pelos quatro <span class="who w-todos">TODOS</span></li>
+        <li>No mesmo dia: PIX/TED de R$ 250.000 para a conta da Evelyn, comprovante salvo <span class="who w-voce">VOCÊS</span></li>
+        <li>Recibo de R$ 250.000 assinado por Evelyn e Carlos <span class="who w-vend">VENDEDORES</span></li>
+        <li>Posse, condomínio e IPTU passam para vocês (cláusulas 14.1 e 14.3). Combinar a entrega das chaves <span class="who w-todos">TODOS</span></li>
+      </ul>
+    </div>
+    <div class="phase money">
+      <div class="phase-top"><h3>ITBI</h3><span class="when">D+1 → D+5</span></div>
+      <ul><li>Emitir a guia no portal da Prefeitura de SP e pagar cerca de R$ 24.300 (3%, sem redução por ser SFI). O cartório exige a guia paga para registrar <span class="who w-voce">VOCÊS</span></li></ul>
+    </div>
+    <div class="phase money">
+      <div class="phase-top"><h3>Registro no 8º RI</h3><span class="when">D+5 → ~D+20</span></div>
+      <ul>
+        <li>Protocolo do contrato (normalmente eletrônico, pelo Itaú) e pagamento dos emolumentos, cerca de R$ 7–10 mil <span class="who w-itau">ITAÚ</span> <span class="who w-voce">VOCÊS</span></li>
+        <li>Cartório analisa em 5–10 dias úteis. Se houver nota de exigência, responder no mesmo dia <span class="who w-cart">CARTÓRIO</span></li>
+        <li>Enviar ao Itaú o contrato registrado e a matrícula atualizada antes de D+45 <span class="who w-voce">VOCÊS</span></li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-top"><h3>Liberação dos recursos</h3><span class="when">até 3 dias úteis após o Itaú receber o registro</span></div>
+      <ul><li>R$ 550.000 para a Evelyn e R$ 40.000 para a conta de vocês (ag. 3740, cc 02577-4) <span class="who w-itau">ITAÚ</span></li></ul>
+    </div>
+    <div class="phase">
+      <div class="phase-top"><h3>1ª prestação</h3><span class="when">D+30</span></div>
+      <ul><li>Cerca de R$ 7.558, mais os seguros de dois meses (cláusula 19). Vence mesmo que o registro ainda não tenha saído <span class="who w-itau">DÉBITO AUTOMÁTICO</span></li></ul>
+    </div>
+    <div class="phase">
+      <div class="phase-top"><h3>Início das amortizações</h3><span class="when">após o crédito dos R$ 40 mil</span></div>
+      <ul>
+        <li>Usar a sobra dos R$ 40 mil (ITBI + registro devem custar R$ 32–35 mil) como primeira amortização extraordinária <span class="who w-voce">VOCÊS</span></li>
+        <li>A partir daí, aportar todo mês a diferença entre R$ 20.000 e a prestação <span class="who w-voce">VOCÊS</span></li>
+        <li>Atualizar a titularidade no condomínio e o cadastro do IPTU <span class="who w-voce">VOCÊS</span></li>
+      </ul>
+    </div>
+  </div>
+<div class="note info"><b>Ninguém precisa ir ao cartório.</b> O contrato Itaú tem força de escritura pública (art. 38 da Lei 9.514/97), então não há ato em tabelião. A assinatura costuma ser eletrônica, e cada um assina de onde estiver. O protocolo no 8º RI, os emolumentos, as exigências e o ITBI são resolvidos online. O único encontro presencial é a entrega das chaves, junto com a conferência do PIX e a assinatura do recibo. Confirmem com a Beatriz se a assinatura aceita gov.br ou exige certificado ICP-Brasil, e quem protocola no RI.</div>
+</section>
+
+<section id="responsaveis">
+  <div class="sec-head"><div class="eyebrow">Matriz de responsabilidades</div><h2>Quem faz o quê</h2></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Parte</th><th>Responsável por</th><th>Entrega</th></tr></thead>
+    <tbody>
+      <tr><td><span class="who w-voce">VOCÊS</span></td><td>Certidões estaduais e de protesto; resgate XP; PIX de R$ 250 mil; ITBI; emolumentos; enviar o registro ao Itaú; condomínio e IPTU a partir da assinatura</td><td>Dinheiro disponível na hora certa e documentação fechada</td></tr>
+      <tr><td><span class="who w-vend">VENDEDORES</span></td><td>Matrícula e IPTU atualizados; certidão de casamento; confirmar a conta por escrito; assinar o contrato e o recibo dos R$ 250 mil; entregar as chaves; condomínio e IPTU quitados até a assinatura</td><td>Imóvel livre, com débitos em dia e posse entregue</td></tr>
+      <tr><td><span class="who w-itau">ITAÚ</span></td><td>Análise jurídica, laudo, emissão do contrato, protocolo eletrônico, liberação de R$ 550 mil + R$ 40 mil, débito das prestações</td><td>Contrato emitido e crédito liberado em até 3 dias úteis após o registro</td></tr>
+      <tr><td><span class="who w-cart">8º RI</span></td><td>Qualificar o título, emitir exigências, registrar a compra e venda e a alienação fiduciária</td><td>Matrícula com os dois registros averbados</td></tr>
+      <tr><td><span class="who w-itau">BEATRIZ</span></td><td>Consultora Itaú Personnalité: ponto de contato para status, validade da proposta e dúvidas do contrato</td><td>Visibilidade do processo</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="caixa">
+  <div class="sec-head"><div class="eyebrow">Fluxo de caixa da aquisição</div><h2>Quanto sai e quando</h2>
+  <p class="muted">ITBI e emolumentos são estimativas. O pico acontece entre a assinatura e o crédito dos R$ 40 mil.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Momento</th><th>Movimento</th><th class="n">Saída</th><th class="n">Entrada</th><th class="n">Acumulado</th></tr></thead>
+    <tbody>
+      <tr><td>14/09 <span class="pill p-ok">Feito</span></td><td>Sinal</td><td class="n">10.000</td><td class="n">–</td><td class="n">−10.000</td></tr>
+      <tr><td>D0</td><td>Tarifa de avaliação</td><td class="n">1.205</td><td class="n">–</td><td class="n">−11.205</td></tr>
+      <tr><td>Assinatura</td><td>PIX/TED à Evelyn</td><td class="n">250.000</td><td class="n">–</td><td class="n">−261.205</td></tr>
+      <tr><td>D+1 a D+5</td><td>ITBI (3%)</td><td class="n">~24.300</td><td class="n">–</td><td class="n">−285.505</td></tr>
+      <tr><td>Registro</td><td>Emolumentos 8º RI</td><td class="n">~8.500</td><td class="n">–</td><td class="n">−294.005</td></tr>
+      <tr class="total"><td colspan="4">Pico de caixa próprio</td><td class="n">≈ −294.000</td></tr>
+      <tr><td>Liberação</td><td>Crédito Itaú, despesas</td><td class="n">–</td><td class="n">40.000</td><td class="n">−254.005</td></tr>
+      <tr><td>Após liberação</td><td>Sobra usada como amortização</td><td class="n">~6.000</td><td class="n">–</td><td class="n">≈ −260.000</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note info"><b>Deixem cerca de R$ 295 mil disponíveis</b> entre a assinatura e o registro. Depois disso, R$ 40 mil voltam do Itaú.</div>
+</section>
+
+<section id="prazos">
+  <div class="sec-head"><div class="eyebrow">Prazos que não podem estourar</div><h2>Prazos críticos</h2></div>
+  <div class="deadlines">
+    <div class="dl"><span class="d">~10/10/2026</span><h3>Validade da matrícula</h3><p class="muted">O Itaú exige certidão com até 30 dias. A atual é de 10/09.</p></div>
+    <div class="dl"><span class="d">Confirmar c/ Beatriz</span><h3>Validade da proposta</h3><p class="muted">60 dias para o processo inteiro, a partir da aprovação.</p></div>
+    <div class="dl"><span class="d">D0 + 45 dias</span><h3>Registro de volta ao Itaú</h3><p class="muted">Sem o contrato registrado nesse prazo, o Itaú cancela a operação (cláusula 14.2).</p></div>
+    <div class="dl"><span class="d">13/12/2026</span><h3>90 dias do recibo de sinal</h3><p class="muted">Limite para formalizar a compra e venda.</p></div>
+  </div>
+</section>
+
+<section id="checklist">
+  <div class="sec-head"><div class="eyebrow">Marque conforme avança · fica salvo neste navegador</div><h2>Checklist</h2></div>
+  <div class="checks">
+    <div class="checkgroup">
+      <h3>Antes da emissão</h3>
+      <label><input type="checkbox" id="c1"><span>TJSP cível e criminal · Evelyn</span></label>
+      <label><input type="checkbox" id="c2"><span>TJSP cível e criminal · Carlos</span></label>
+      <label><input type="checkbox" id="c3"><span>Protesto (CENPROT) · Evelyn e Carlos</span></label>
+      <label><input type="checkbox" id="c4"><span>Matrícula com até 30 dias entregue ao Itaú</span></label>
+      <label><input type="checkbox" id="c5"><span>Data de validade da proposta confirmada</span></label>
+      <label><input type="checkbox" id="c6"><span>Resgate da XP programado</span></label>
+      <label><input type="checkbox" id="c7"><span>Limite do PIX aumentado ou TED planejada</span></label>
+      <label><input type="checkbox" id="c8"><span>Declarações de quitação de condomínio e IPTU dos vendedores</span></label>
+    </div>
+    <div class="checkgroup">
+      <h3>Dia da assinatura</h3>
+      <label><input type="checkbox" id="c9"><span>R$ 250 mil na conta Itaú</span></label>
+      <label><input type="checkbox" id="c10"><span>Conta da Evelyn confirmada por escrito pelos dois</span></label>
+      <label><input type="checkbox" id="c11"><span>Contrato conferido e assinado pelos quatro</span></label>
+      <label><input type="checkbox" id="c12"><span>Transferência feita e comprovante salvo</span></label>
+      <label><input type="checkbox" id="c13"><span>Recibo de R$ 250 mil assinado pelos dois</span></label>
+      <label><input type="checkbox" id="c14"><span>Chaves entregues</span></label>
+    </div>
+    <div class="checkgroup">
+      <h3>Pós-assinatura</h3>
+      <label><input type="checkbox" id="c15"><span>ITBI pago</span></label>
+      <label><input type="checkbox" id="c16"><span>Protocolo no 8º RI</span></label>
+      <label><input type="checkbox" id="c17"><span>Registro concluído e matrícula atualizada</span></label>
+      <label><input type="checkbox" id="c18"><span>Registro enviado ao Itaú antes de D+45</span></label>
+      <label><input type="checkbox" id="c19"><span>R$ 550 mil creditados à Evelyn</span></label>
+      <label><input type="checkbox" id="c20"><span>R$ 40 mil creditados a vocês</span></label>
+      <label><input type="checkbox" id="c21"><span>Sobra usada como 1ª amortização</span></label>
+      <label><input type="checkbox" id="c22"><span>Titularidade no condomínio e IPTU atualizada</span></label>
+    </div>
+  </div>
+</section>
+
+<section id="calculadora">
+  <div class="sec-head"><div class="eyebrow">SAC · 12,25% a.a. efetiva · seguros MIP/DFI · TR ajustável</div><h2>Calculadora de amortização</h2>
+  <p class="muted">Todo mês, a diferença entre o orçamento e a prestação vira amortização extraordinária. A linha cinza mostra o contrato pago só com as prestações. O 1º mês bate com a minuta (R$ 7.558,04).</p></div>
+  <div class="calc">
+    <div class="panel" role="form" aria-label="Premissas">
+      <div class="field"><label for="budget">Orçamento mensal total (R$)</label><input type="number" id="budget" value="20000" step="500" min="0"><small>Prestação + amortização extra</small></div>
+      <div class="field"><label>Amortização extra reduz</label>
+        <div class="seg" id="mode"><button type="button" data-v="prazo" aria-pressed="true">Prazo</button><button type="button" data-v="parcela" aria-pressed="false">Parcela</button></div>
+        <small id="modeHint">Mantém a amortização mensal original e encurta o contrato</small></div>
+      <div class="field"><label for="rate">Taxa efetiva anual (%)</label><input type="number" id="rate" value="12.25" step="0.01"><small>13,99 se perder o benefício</small></div>
+      <div class="field"><label for="tr">TR mensal (%)</label><input type="number" id="tr" value="0" step="0.01" min="0">
+        <div class="seg" id="trq"><button type="button" data-v="0" aria-pressed="true">0%</button><button type="button" data-v="0.1" aria-pressed="false">0,10%</button><button type="button" data-v="0.2" aria-pressed="false">0,20%</button></div>
+        <small>Corrige o saldo todo mês. A minuta calcula a 1ª prestação com TR zero</small></div>
+      <div class="field"><label for="lump">Aporte pontual (R$)</label><input type="number" id="lump" value="6000" step="500" min="0"><small>Sobra dos R$ 40 mil de despesas, por exemplo</small></div>
+      <div class="field"><label for="lumpM">No mês nº</label><input type="number" id="lumpM" value="2" step="1" min="1" max="360"></div>
+    </div>
+    <div class="results">
+      <div class="kpis">
+        <div class="kpi primary"><span class="l">Quitação em</span><span class="v" id="kTerm">–</span><span class="s muted" id="kTermS"></span></div>
+        <div class="kpi"><span class="l">Juros pagos</span><span class="v" id="kInt">–</span><span class="s muted" id="kIntS"></span></div>
+        <div class="kpi good"><span class="l">Economia de juros + seguros</span><span class="v" id="kSave">–</span><span class="s muted">vs. pagar só as prestações</span></div>
+        <div class="kpi"><span class="l">Desembolso total</span><span class="v" id="kTot">–</span><span class="s muted" id="kTotS"></span></div>
+      </div>
+      <div class="chart">
+        <div class="legend"><span><i style="background:var(--accent)"></i>Saldo devedor com aportes</span><span><i style="background:var(--base)"></i>Só as prestações</span></div>
+        <svg id="svg" viewBox="0 0 640 280" role="img" aria-label="Saldo devedor ao longo dos anos"></svg>
+      </div>
+      <details open>
+        <summary>Resumo por ano</summary>
+        <div class="tbl"><table>
+          <thead><tr><th>Ano</th><th class="n">Prestação (1º mês)</th><th class="n">Juros</th><th class="n">Seguros</th><th class="n">Amort. regular</th><th class="n">Amort. extra</th><th class="n">Saldo final</th></tr></thead>
+          <tbody id="yearBody"></tbody>
+        </table></div>
+      </details>
+      <details>
+        <summary>Tabela mês a mês</summary>
+        <div class="tbl"><table>
+          <thead><tr><th>Mês</th><th class="n">Juros</th><th class="n">Seguros</th><th class="n">Amortização</th><th class="n">Prestação</th><th class="n">Extra</th><th class="n">Saldo</th></tr></thead>
+          <tbody id="monthBody"></tbody>
+        </table></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>Simulação com base na minuta (rascunho) da proposta Itaú 17778669. MIP modelado como 0,0273% do saldo e DFI fixo em R$ 49,03, conforme a 1ª prestação; as taxas reais de seguro podem ser reajustadas pela seguradora. ITBI e emolumentos são estimativas. Não substitui a conferência do contrato final nem a orientação de advogado ou tabelião.</footer>
+</div>
+
+<script>
+(function(){
+  // checklist persistence
+  document.querySelectorAll('.checkgroup input').forEach(function(cb){
+    try{ if(localStorage.getItem('apto95-'+cb.id)==='1') cb.checked=true; }catch(e){}
+    cb.addEventListener('change',function(){ try{ localStorage.setItem('apto95-'+cb.id, cb.checked?'1':'0'); }catch(e){} });
+  });
+
+  var P=590000, N=360, MIP=161.07/590000, DFI=49.03;
+  var $=function(id){return document.getElementById(id)};
+  var brl=function(v,d){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:d||0,maximumFractionDigits:d||0})};
+  var num=function(v,d){return v.toLocaleString('pt-BR',{minimumFractionDigits:d||0,maximumFractionDigits:d||0})};
+  var state={mode:'prazo'};
+
+  function sim(o){
+    var i=Math.pow(1+o.rate,1/12)-1, s=P, a=P/N, trf=1, rows=[];
+    for(var m=1;m<=N && s>0.005;m++){
+      s*=(1+o.tr); trf*=(1+o.tr);
+      var juros=s*i, seg=s*MIP+DFI;
+      var am = o.mode==='parcela' ? s/(N-m+1) : a*trf;
+      am=Math.min(am,s);
+      var prest=am+juros+seg;
+      var extra=0;
+      if(o.extras){
+        extra=Math.max(0,o.budget-prest);
+        if(m===o.lumpM) extra+=o.lump;
+        extra=Math.min(extra,s-am);
+      }
+      s-=am+extra;
+      if(s<0.005) s=0;
+      rows.push({m:m,juros:juros,seg:seg,am:am,prest:prest,extra:extra,saldo:s});
+    }
+    return rows;
+  }
+  function sum(rows,k){return rows.reduce(function(t,r){return t+r[k]},0)}
+  function fmtTerm(n){var y=Math.floor(n/12),m=n%12;return (y?y+' a':'')+(y&&m?' ':'')+(m?m+' m':'')}
+
+  function draw(base,plan){
+    var svg=$('svg'), W=640,H=280, L=58,R=14,T=12,B=30, w=W-L-R, h=H-T-B;
+    var maxY=Math.max.apply(null,base.map(function(r){return r.saldo})); maxY=Math.max(maxY,P);
+    var yTop=Math.ceil(maxY/100000)*100000;
+    var x=function(m){return L+w*m/N}, y=function(v){return T+h*(1-v/yTop)};
+    var out='';
+    for(var v=0;v<=yTop;v+=100000){
+      out+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(v)+'" y2="'+y(v)+'" stroke="var(--line)" stroke-width="1"/>';
+      out+='<text x="'+(L-8)+'" y="'+(y(v)+4)+'" text-anchor="end" font-size="11" fill="var(--muted)" font-family="var(--mono)">'+(v/1000)+'k</text>';
+    }
+    for(var yr=0;yr<=30;yr+=5){
+      out+='<text x="'+x(yr*12)+'" y="'+(H-10)+'" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="var(--mono)">'+yr+'a</text>';
+    }
+    function path(rows){
+      var d='M'+x(0)+','+y(P);
+      rows.forEach(function(r){d+=' L'+x(r.m).toFixed(1)+','+y(r.saldo).toFixed(1)});
+      return d;
+    }
+    var pp=path(plan), last=plan[plan.length-1];
+    out+='<path d="'+pp+' L'+x(last.m)+','+y(0)+' L'+x(0)+','+y(0)+' Z" fill="var(--accent)" fill-opacity=".12" stroke="none"/>';
+    out+='<path d="'+path(base)+'" fill="none" stroke="var(--base)" stroke-width="2" stroke-dasharray="5 4"/>';
+    out+='<path d="'+pp+'" fill="none" stroke="var(--accent)" stroke-width="2.5"/>';
+    var lx=x(last.m), anchor= lx>W-120?'end':'start';
+    out+='<circle cx="'+lx+'" cy="'+y(0)+'" r="5" fill="var(--accent)"/>';
+    out+='<text x="'+(anchor==='end'?lx-8:lx+8)+'" y="'+(y(0)-10)+'" text-anchor="'+anchor+'" font-size="12" font-weight="600" fill="var(--accent)" font-family="var(--body)">Quitado em '+fmtTerm(last.m)+'</text>';
+    svg.innerHTML=out;
+  }
+
+  function run(){
+    var o={budget:+$('budget').value||0, rate:(+$('rate').value||0)/100, tr:(+$('tr').value||0)/100, lump:+$('lump').value||0, lumpM:Math.round(+$('lumpM').value||0), mode:state.mode};
+    var base=sim(Object.assign({},o,{extras:false,mode:'prazo'}));
+    var plan=sim(Object.assign({},o,{extras:true}));
+    var n=plan.length, ji=sum(plan,'juros'), jb=sum(base,'juros'), si=sum(plan,'seg'), sb=sum(base,'seg');
+    var tot=sum(plan,'prest')+sum(plan,'extra');
+    $('kTerm').textContent=fmtTerm(n);
+    $('kTermS').textContent=n+' meses · '+(N-n)+' a menos';
+    $('kInt').textContent=brl(ji);
+    $('kIntS').textContent='sem aportes: '+brl(jb);
+    $('kSave').textContent=brl((jb+sb)-(ji+si));
+    $('kTot').textContent=brl(tot);
+    $('kTotS').textContent='sem aportes: '+brl(sum(base,'prest'));
+    draw(base,plan);
+    var yb='';
+    for(var y=0;y*12<n;y++){
+      var rs=plan.slice(y*12,y*12+12);
+      yb+='<tr><td>'+(y+1)+'</td><td class="n">'+num(rs[0].prest,2)+'</td><td class="n">'+num(sum(rs,'juros'))+'</td><td class="n">'+num(sum(rs,'seg'))+'</td><td class="n">'+num(sum(rs,'am'))+'</td><td class="n">'+num(sum(rs,'extra'))+'</td><td class="n">'+num(rs[rs.length-1].saldo)+'</td></tr>';
+    }
+    $('yearBody').innerHTML=yb;
+    $('monthBody').innerHTML=plan.map(function(r){return '<tr><td>'+r.m+'</td><td class="n">'+num(r.juros,2)+'</td><td class="n">'+num(r.seg,2)+'</td><td class="n">'+num(r.am,2)+'</td><td class="n">'+num(r.prest,2)+'</td><td class="n">'+num(r.extra,2)+'</td><td class="n">'+num(r.saldo,2)+'</td></tr>'}).join('');
+  }
+
+  ['budget','rate','tr','lump','lumpM'].forEach(function(id){$(id).addEventListener('input',function(){
+    if(id==='tr') syncTr(); run();
+  })});
+  function syncTr(){var v=+$('tr').value;document.querySelectorAll('#trq button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.v===v))})}
+  document.querySelectorAll('#trq button').forEach(function(b){b.addEventListener('click',function(){$('tr').value=b.dataset.v;syncTr();run()})});
+  document.querySelectorAll('#mode button').forEach(function(b){b.addEventListener('click',function(){
+    state.mode=b.dataset.v;
+    document.querySelectorAll('#mode button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
+    $('modeHint').textContent= state.mode==='prazo' ? 'Mantém a amortização mensal original e encurta o contrato' : 'Mantém os 360 meses e recalcula uma prestação menor';
+    run();
+  })});
+  run();
+})();
+</script>
+</body>
+</html>
